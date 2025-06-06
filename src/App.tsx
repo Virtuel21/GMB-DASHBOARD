@@ -1,14 +1,26 @@
 import { useEffect } from 'react';
 
+interface CredentialResponse {
+  credential: string;
+}
+
+interface GoogleLib {
+  initialize(options: {
+    client_id: string;
+    callback: (response: CredentialResponse) => void;
+  }): void;
+  renderButton(parent: HTMLElement | null, options: { theme: string; size: string }): void;
+}
+
 declare global {
   interface Window {
-    google?: any;
+    google?: { accounts?: { id?: GoogleLib } };
   }
 }
 
 export default function App() {
   useEffect(() => {
-    const handleCredentialResponse = (response: any) => {
+    const handleCredentialResponse = (response: CredentialResponse) => {
       console.log('Google credential:', response.credential);
     };
 
